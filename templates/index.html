@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhishGuard — Phishing Email Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="logo">🛡️</span>
+      <div>
+        <h1>PhishGuard</h1>
+        <p class="tag">Paste a suspicious email. Get an explainable risk report.</p>
+      </div>
+    </div>
+    <p class="privacy">🔒 Nothing you paste is stored or logged.</p>
+  </header>
+
+  <main>
+    <section class="input-card">
+      <form id="analyze-form" method="post" action="/analyze">
+        <div class="row">
+          <label for="sender">From</label>
+          <input type="text" id="sender" name="sender"
+                 placeholder="Support &lt;security@paypa1-login.com&gt;" autocomplete="off">
+        </div>
+
+        <div class="row">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject"
+                 placeholder="Your account will be suspended in 24 hours" autocomplete="off">
+        </div>
+
+        <div class="row">
+          <label for="body">Email body</label>
+          <textarea id="body" name="body" rows="10"
+                    placeholder="Paste the message text or full raw email here..."></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">Analyze email</button>
+          <button type="button" id="sample-btn" class="btn-ghost">Load a phishing sample</button>
+          <button type="reset" class="btn-ghost">Clear</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert">{{ error }}</div>
+      {% endif %}
+    </section>
+
+    {% if report %}
+    <section class="report" id="report">
+      <div class="verdict verdict-{{ report.verdict }}">
+        <div class="score-ring" data-score="{{ report.score }}">
+          <span class="score-num">{{ report.score }}</span>
+          <span class="score-label">/ 100</span>
+        </div>
+        <div class="verdict-text">
+          <h2>{{ report.verdict.replace('_', ' ') | title }}</h2>
+          <p class="verdict-hint">
+            {% if report.verdict == 'likely_phishing' %}
+              Multiple strong phishing signals found. Do not click links or reply.
+            {% elif report.verdict == 'suspicious' %}
+              Some warning signs present. Verify with the sender through a known channel.
+            {% else %}
+              No major phishing signals detected — but always stay cautious.
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      {% if report.urls %}
+      <div class="urls">
+        <h3>🔗 Links found ({{ report.urls|length }})</h3>
+        <ul>
+          {% for u in report.urls %}
+            <li><code>{{ u }}</code></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <div class="findings">
+        <h3>🔎 Findings ({{ report.findings|length }})</h3>
+        {% if report.findings %}
+          <ul>
+            {% for f in report.findings %}
+              <li class="finding finding-{{ f.severity }}">
+                <span class="sev sev-{{ f.severity }}">{{ f.severity }}</span>
+                <div>
+                  <strong>{{ f.title }}</strong>
+                  <p>{{ f.detail }}</p>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="none">No suspicious indicators matched.</p>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="how">
+      <h3>How it works</h3>
+      <p>
+        PhishGuard runs a set of transparent heuristics — sender/brand mismatch, lookalike and
+        punycode domains, raw-IP or misleading URLs, urgency and credential-harvest language,
+        and mismatched link text. Each finding is weighted, summed into a 0–100 score, and
+        mapped to a verdict. It's a teaching tool, not a replacement for a real mail gateway.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built for the cybersecurity project · Analysis runs in memory only.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
