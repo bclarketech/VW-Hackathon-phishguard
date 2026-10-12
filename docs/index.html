@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhishGuard — Phishing Email Analyzer</title>
+  <meta name="description" content="Analyze a suspicious email for phishing signs. Runs 100% in your browser — your email never leaves your device.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>🛡️ PhishGuard</h1>
+    <p class="tagline">Analyze a suspicious email for phishing signs</p>
+    <p class="privacy-badge">🔒 <strong>100% in your browser</strong> — your email never leaves your device. No server, no upload, no tracking.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <form id="analyze-form" autocomplete="off">
+        <div class="row">
+          <label for="sender">From (sender)</label>
+          <input type="text" id="sender" name="sender" placeholder="e.g. Apple Support &lt;verify@app1e-id-secure.com&gt;">
+        </div>
+        <div class="row">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="e.g. Urgent: your account will be suspended">
+        </div>
+        <div class="row">
+          <label for="body">Email body</label>
+          <textarea id="body" name="body" rows="10"
+                    placeholder="Paste the message text or full raw email here (headers + blank line + body)."></textarea>
+        </div>
+
+        <div class="row file-row">
+          <div class="file-picker">
+            <label for="email-file">…or load an email file (.txt / .eml)</label>
+            <input type="file" id="email-file" accept=".txt,.eml,.text,message/rfc822">
+            <small>This reads the file locally in your browser — it is never uploaded.</small>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">Analyze email</button>
+          <button type="button" id="sample-btn" class="btn-ghost">Load a phishing sample</button>
+          <button type="reset" class="btn-ghost">Clear</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="report" class="card report hidden" aria-live="polite">
+      <div class="verdict-banner">
+        <div class="score-ring"><div class="ring-fill"></div><span class="ring-num"></span></div>
+        <div class="verdict-text">
+          <h2 class="verdict-label"></h2>
+          <p class="verdict-sub"></p>
+        </div>
+      </div>
+      <div class="counts"></div>
+      <h3>Findings</h3>
+      <ul class="findings"></ul>
+      <div class="urls-block hidden">
+        <h3>Links found</h3>
+        <ul class="urls"></ul>
+      </div>
+      <p class="disclaimer">Heuristic analysis for education/demonstration only — always verify suspicious emails independently.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Built for a school hackathon · <a href="https://github.com/Bpoit/VW-Hackathon-phishguard">View source on GitHub</a></p>
+  </footer>
+
+  <script src="analyzer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
