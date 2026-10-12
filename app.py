@@ -38,6 +38,15 @@ def analyze_route():
         body = (request.form.get("body") or "").strip()
         raw = (request.form.get("raw") or "").strip()
 
+        # Also accept a directly-uploaded email file (e.g. .eml / .txt).
+        # Read it in memory only — never written to disk.
+        upload = request.files.get("raw_file")
+        if upload and upload.filename and not raw:
+            try:
+                raw = upload.read(MAX_PASTE_CHARS + 1).decode("utf-8", errors="replace").strip()
+            except Exception:
+                raw = ""
+
     # Enforce the size limit on whatever the user gave us.
     total = len(subject) + len(sender) + len(body) + len(raw)
     if total > MAX_PASTE_CHARS:

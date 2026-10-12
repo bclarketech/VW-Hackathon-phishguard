@@ -53,6 +53,97 @@
     });
   }
 
+  // ---- Load an email file (.txt / .eml) ----
+  var fileInput = document.getElementById("email-file");
+  if (fileInput) {
+    fileInput.addEventListener("change", function () {
+      var file = this.files && this.files[0];
+      if (!file) return;
+
+      if (file.size > 50000) {
+        window.alert("File is too large (" + file.size.toLocaleString() + " bytes). Please keep it under 50 KB.");
+        fileInput.value = "";
+        return;
+      }
+
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var text = String(e.target.result || "");
+        var parsed = parseEmail(text);
+
+        var senderEl = document.getElementById("sender");
+        var subjectEl = document.getElementById("subject");
+        var bodyEl = document.getElementById("body");
+        if (senderEl) senderEl.value = parsed.sender;
+        if (subjectEl) subjectEl.value = parsed.subject;
+        if (bodyEl) bodyEl.value = parsed.body;
+
+        // Auto-analyze right away so the user sees results immediately.
+        var form = document.getElementById("analyze-form");
+        if (form) form.submit();
+      };
+      reader.onerror = function () {
+        window.alert("Could not read that file. Try saving the email as a .txt or .eml file first.");
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  // Split a raw email into sender / subject / body.
+  // Handles RFC-822 style headers (blank line separates headers from body).
+  function parseEmail(text) {
+    var out = { sender: "", subject: "", body: text };
+    var normalized = text.replace(/\r\n/g, "\n");
+
+    // Only try header parsing if it actually looks like it has headers.
+    var firstBlank = normalized.indexOf("\n\n");
+    if (firstBlank === -1) return out;
+
+    var headerBlock = normalized.slice(0, firstBlank);
+    var bodyPart = normalized.slice(firstBlank + 2);
+
+    // Must contain at least one recognizable header line to trust it.
+    if (!/^(from|to|subject|date|message-id|received|return-path)\s*:/im.test(headerBlock)) {
+      return out;
+    }
+
+    // Join continuation lines (headers wrapped over multiple lines).
+    var headers = {};
+    var currentKey = null;
+    headerBlock.split("\n").forEach(function (line) {
+      var m = line.match(/^([A-Za-z0-9-]+):\s*(.*)$/);
+      if (m) {
+        currentKey = m[1].toLowerCase();
+        headers[currentKey] = m[2].trim();
+      } else if (currentKey && /^\s/.test(line)) {
+        headers[currentKey] += " " + line.trim();
+      }
+    });
+
+    // Light base64 / quoted-printable sniffing for encoded headers.
+    function decodeHeader(v) {
+      if (!v) return "";
+      var b64 = v.match(/=\?UTF-8\?B\?([A-Za-z0-9+/=]+)\?=/i);
+      if (b64) {
+        try { return decodeURIComponent(escape(window.atob(b64[1]))); } catch (err) { /* fall through */ }
+      }
+      var qp = v.match(/=\?UTF-8\?Q\?([^?]+)\?=/i);
+      if (qp) {
+        try {
+          return decodeURIComponent(qp[1].replace(/_/g, " ").replace(/=([0-9A-F]{2})/gi, function (h, hex) {
+            return "%" + hex;
+          }));
+        } catch (err) { /* fall through */ }
+      }
+      return v.replace(/=\n/g, ""); // basic quoted-printable soft line breaks in body-ish text
+    }
+
+    out.sender = decodeHeader(headers["from"] || "");
+    out.subject = decodeHeader(headers["subject"] || "");
+    out.body = bodyPart.trim() || text;
+    return out;
+  }
+
   // ---- Optional: AJAX submit so the page doesn't fully reload ----
   var form = document.getElementById("analyze-form");
   if (form) {

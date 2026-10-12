@@ -39,6 +39,14 @@
                     placeholder="Paste the message text or full raw email here..."></textarea>
         </div>
 
+        <div class="row file-row">
+          <label for="email-file">📄 …or load an email file</label>
+          <div class="file-picker">
+            <input type="file" id="email-file" accept=".txt,.eml,.msg,.text,.emlx">
+            <span class="file-hint">Accepts .txt / .eml — headers (From, Subject) are auto-detected.</span>
+          </div>
+        </div>
+
         <div class="actions">
           <button type="submit" class="btn-primary">Analyze email</button>
           <button type="button" id="sample-btn" class="btn-ghost">Load a phishing sample</button>
