@@ -44,6 +44,10 @@
     var ring = report.querySelector(".score-ring");
     if (ring) ring.setAttribute("data-verdict", rep.verdict);
 
+    // Colour the ring + heading: CSS keys off .verdict-<verdict> on the card
+    report.classList.remove("verdict-likely_safe", "verdict-suspicious", "verdict-likely_phishing");
+    if (rep.verdict) report.classList.add("verdict-" + rep.verdict);
+
     var label = report.querySelector(".verdict-label");
     if (label) label.textContent = (rep.verdict || "").replace(/_/g, " ");
     var sub = report.querySelector(".verdict-sub");

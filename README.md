@@ -1,10 +1,16 @@
 # 🛡️ PhishGuard
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A lightweight, explainable **phishing email analyzer**. Paste a suspicious email and get a
 0–100 risk score with a plain-English list of exactly *why* it looks phishy.
 
 Built as a classroom / hackathon project to demonstrate how phishing signals can be detected
 with transparent heuristics instead of a black-box model.
+
+🌐 **Live demo (no install):** <https://bclarketech.github.io/VW-Hackathon-phishguard/>
+
+![PhishGuard verdict screen — score 100, Likely Phishing, with color-coded severity chips](media/screenshot-verdict.png)
 
 ## What it detects
 
@@ -77,6 +83,15 @@ The score is just points that add up. Here's how:
 python -m unittest discover -s tests -v
 ```
 
+All **21 tests** pass. They cover:
+
+| Layer | What's proven |
+|---|---|
+| **Detection engine** | Brand/display-name mismatch, lookalike sender domains, raw-IP URLs, urgency + credential-harvest language are all flagged; a clean email passes |
+| **Scoring rules** | Score is clamped to 0–100, finding counts always match the findings list, reports serialize to JSON |
+| **Web API** | `/healthz` responds; `/analyze` handles JSON, form posts, raw `.eml` strings, and uploaded `.eml` files; empty input is rejected with 400 |
+| **Safety rails** | Oversized input is rejected (413), and error paths never lose what the user typed |
+
 ## Design & security notes
 
 - **No storage.** Pasted emails are analyzed in memory only — nothing is written to disk,
@@ -96,13 +111,20 @@ python -m unittest discover -s tests -v
 phishguard/
 ├── app.py              # Flask routes (no debug, no storage)
 ├── analyzer.py         # Heuristic detection engine
+├── docs/               # Browser-only edition (GitHub Pages, zero backend)
+│   ├── index.html
+│   ├── app.js
+│   └── analyzer.js     # JS port of analyzer.py (same engine, same results)
 ├── templates/
 │   └── index.html      # UI
 ├── static/
 │   ├── style.css
 │   └── app.js          # Score-ring animation + demo sample
 ├── tests/
-│   └── test_analyzer.py
+│   ├── test_analyzer.py
+│   └── test_app.py
+├── media/              # README screenshots
+├── LICENSE             # MIT
 ├── requirements.txt
 └── README.md
 ```
@@ -113,3 +135,13 @@ phishguard/
 - URL reputation lookup (with caching) for live domain checks
 - Containerized deployment (Docker + Kubernetes) behind a Cloudflare Tunnel
 - Machine-learning classifier trained on a public phishing corpus
+
+## Team
+
+- **Chris Clarke** — detection engine, Flask API, browser edition, deployment
+- **[Teammate 2]** — [role]
+- **[Teammate 3]** — [role]
+
+## License
+
+[MIT](LICENSE) — free to use, study, and adapt (attribution appreciated).
