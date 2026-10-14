@@ -81,13 +81,6 @@ The score is just points that add up. Here's how:
 | 3 low flags | × 5 | = 15 |
 | **Raw total** | | **150 → capped at 100** → **Likely phishing** |
 
-=======
-## Run the tests
-
-```bash
-python -m unittest discover -s tests -v
-```
-
 All **21 tests** pass. They cover:
 
 | Layer | What's proven |
