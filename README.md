@@ -81,8 +81,6 @@ The score is just points that add up. Here's how:
 | 3 low flags | × 5 | = 15 |
 | **Raw total** | | **150 → capped at 100** → **Likely phishing** |
 
-
-<<<<<<< HEAD
 =======
 ## Run the tests
 
@@ -99,7 +97,6 @@ All **21 tests** pass. They cover:
 | **Web API** | `/healthz` responds; `/analyze` handles JSON, form posts, raw `.eml` strings, and uploaded `.eml` files; empty input is rejected with 400 |
 | **Safety rails** | Oversized input is rejected (413), and error paths never lose what the user typed |
 
->>>>>>> 57055d4424238caf9581d9ef59e3c0188b2cfa0b
 ## Design & security notes
 
 - **No storage.** Pasted emails are analyzed in memory only — nothing is written to disk,
