@@ -47,6 +47,15 @@ Open <http://127.0.0.1:8000> and click **"Load a phishing sample"** to see it in
 python -m unittest discover -s tests -v
 ```
 
+All **21 tests** pass. They cover:
+
+| Layer | What's proven |
+|---|---|
+| **Detection engine** | Brand/display-name mismatch, lookalike sender domains, raw-IP URLs, urgency + credential-harvest language are all flagged; a clean email passes |
+| **Scoring rules** | Score is clamped to 0–100, finding counts always match the findings list, reports serialize to JSON |
+| **Web API** | `/healthz` responds; `/analyze` handles JSON, form posts, raw `.eml` strings, and uploaded `.eml` files; empty input is rejected with 400 |
+| **Safety rails** | Oversized input is rejected (413), and error paths never lose what the user typed |
+
 ## How the score works
 
 The score is just points that add up. Here's how:
@@ -80,15 +89,6 @@ The score is just points that add up. Here's how:
 | 5 medium flags | × 12 | = 60 |
 | 3 low flags | × 5 | = 15 |
 | **Raw total** | | **150 → capped at 100** → **Likely phishing** |
-
-All **21 tests** pass. They cover:
-
-| Layer | What's proven |
-|---|---|
-| **Detection engine** | Brand/display-name mismatch, lookalike sender domains, raw-IP URLs, urgency + credential-harvest language are all flagged; a clean email passes |
-| **Scoring rules** | Score is clamped to 0–100, finding counts always match the findings list, reports serialize to JSON |
-| **Web API** | `/healthz` responds; `/analyze` handles JSON, form posts, raw `.eml` strings, and uploaded `.eml` files; empty input is rejected with 400 |
-| **Safety rails** | Oversized input is rejected (413), and error paths never lose what the user typed |
 
 ## Design & security notes
 
