@@ -1,7 +1,5 @@
 # 🛡️ PhishGuard
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 A lightweight, explainable **phishing email analyzer**. Paste a suspicious email and get a
 0–100 risk score with a plain-English list of exactly *why* it looks phishy.
 
