@@ -247,7 +247,9 @@ def analyze(subject: str = "", body: str = "", sender: str = "", raw: str = "") 
             elif low.startswith("subject:"):
                 subject = h.split(":", 1)[1].strip()
 
-    urls = _extract_urls(f"{raw}\n{body}")
+    # Dedupe while preserving order: .eml raw already contains the body,
+    # and HTML parts repeat each link as href + visible text.
+    urls = list(dict.fromkeys(_extract_urls(f"{raw}\n{body}")))
     _check_urls(report, urls)
     _check_sender(report, sender, has_content=bool(subject or body or raw))
     _check_body(report, subject, body)

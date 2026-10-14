@@ -1,0 +1,41 @@
+From: "OnlyFans Billing" <billing@0nlyfans-support.com>
+To: victim@example.com
+Subject: URGENT: Your subscription payment was declined - account restricted
+Date: Tue, 13 Oct 2026 09:14:22 -0500
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="boundary42"
+
+--boundary42
+Content-Type: text/plain; charset="utf-8"
+
+Dear Customer,
+
+We were unable to process your latest subscription payment of $49.99.
+Your OnlyFans account has been RESTRICTED and will be permanently
+deleted within 24 hours if this is not resolved.
+
+To restore your account you must immediately verify your billing
+details and confirm your password:
+
+  http://198.51.100.24/verify-billing
+
+If you do not act now you will lose access to all creators you
+subscribed to and your payment history cannot be recovered.
+
+- OnlyFans Billing Team
+
+--boundary42
+Content-Type: text/html; charset="utf-8"
+
+<html><body>
+<p>Dear Customer,</p>
+<p>We were unable to process your latest subscription payment of
+<strong>$49.99</strong>. Your account has been
+<strong>RESTRICTED</strong> and will be permanently deleted
+<strong>within 24 hours</strong> if this is not resolved.</p>
+<p><a href="http://198.51.100.24/verify-billing">https://account.onlyfans.com/billing/restore</a></p>
+<p>Verify your billing details and confirm your password to keep
+your account and payment history.</p>
+<p>- OnlyFans Billing Team</p>
+</body></html>
+--boundary42--

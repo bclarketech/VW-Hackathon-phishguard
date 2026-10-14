@@ -1,0 +1,41 @@
+From: "GoDaddy Renewals" <renewals@godaddy-secure-billing.com>
+To: victim@example.com
+Subject: FINAL NOTICE: domain clarkelab.dev expires in 12 hours
+Date: Tue, 13 Oct 2026 17:03:11 -0500
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="boundary99"
+
+--boundary99
+Content-Type: text/plain; charset="utf-8"
+
+Hello,
+
+This is your final notice. The domain clarkelab.dev expires in
+12 hours. If you do not renew immediately your website, email and
+DNS hosting will be suspended and the domain may be released to
+the public.
+
+Renew now to protect your domain:
+
+  http://198.51.100.99/domain-renew
+
+You will be asked to re-enter your GoDaddy password and payment
+method to confirm the renewal. Do not reply to this email.
+
+GoDaddy Domain Services
+
+--boundary99
+Content-Type: text/html; charset="utf-8"
+
+<html><body>
+<p>Hello,</p>
+<p>This is your <strong>final notice</strong>. The domain
+<strong>clarkelab.dev expires in 12 hours</strong>. If you do not
+renew immediately your website, email and DNS hosting will be
+suspended and the domain may be released to the public.</p>
+<p><a href="http://198.51.100.99/domain-renew">https://account.godaddy.com/renewal</a></p>
+<p>You will be asked to re-enter your GoDaddy password and payment
+method to confirm the renewal.</p>
+<p>GoDaddy Domain Services</p>
+</body></html>
+--boundary99--

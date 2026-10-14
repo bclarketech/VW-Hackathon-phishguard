@@ -228,7 +228,13 @@
 
     var urlRe = /https?:\/\/[^\s<>"')]+/gi;
     var allText = raw + "\n" + body;
-    var urls = allText.match(urlRe) || [];
+    // Dedupe while preserving order: .eml raw already contains the body,
+    // and HTML parts repeat each link as href + visible text.
+    var found = allText.match(urlRe) || [];
+    var seen = {}, urls = [];
+    for (var u = 0; u < found.length; u++) {
+      if (!seen[found[u]]) { seen[found[u]] = true; urls.push(found[u]); }
+    }
     checkUrls(report, urls);
     checkSender(report, sender, !!(subject || body || raw));
     checkBody(report, subject, body);
