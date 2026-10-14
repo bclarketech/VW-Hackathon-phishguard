@@ -19,6 +19,40 @@ with transparent heuristics instead of a black-box model.
 Each finding is weighted (high/medium/low), summed into a **0–100 score**, and mapped to a
 verdict: `likely_safe` · `suspicious` · `likely_phishing`.
 
+## How the score works
+
+The score is just points that add up. Here's how:
+
+**1. Every red flag has a severity, and each severity is worth set points.**
+
+| Severity | Points | Examples |
+|---|---|---|
+| High | 25 | Raw IP link, fake brand domain, link text that lies |
+| Medium | 12 | Urgency, account threats, free-mail sender |
+| Low | 5 | No https, "Dear Customer" |
+| Info | 0 | No sender given (just a note — it doesn't count) |
+
+**2. Points add up.** Each bad link counts separately, so two IP-address links add 50.
+
+**3. The total is capped at 100.** It can't go below 0 or above 100.
+
+**4. The total picks the verdict.**
+
+| Score | Verdict |
+|---|---|
+| 0–29 | Likely safe |
+| 30–59 | Suspicious |
+| 60–100 | Likely phishing |
+
+### Worked example (the demo email)
+
+| | Calculation | Points |
+|---|---|---|
+| 3 high flags | × 25 | = 75 |
+| 5 medium flags | × 12 | = 60 |
+| 3 low flags | × 5 | = 15 |
+| **Raw total** | | **150 → capped at 100** → **Likely phishing** |
+
 ## Quick start (run locally)
 
 ```bash
