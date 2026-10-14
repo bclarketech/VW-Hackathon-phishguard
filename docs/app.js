@@ -52,11 +52,13 @@
     var counts = report.querySelector(".counts");
     if (counts) {
       var c = rep.counts || {};
-      counts.innerHTML =
-        '<span class="chip chip-high">' + (c.high || 0) + " high</span>" +
-        '<span class="chip chip-medium">' + (c.medium || 0) + " medium</span>" +
-        '<span class="chip chip-low">' + (c.low || 0) + " low</span>" +
-        '<span class="chip chip-info">' + (c.info || 0) + " info</span>";
+      var parts = [];
+      if (c.high) parts.push('<span class="chip chip-high">' + c.high + " high</span>");
+      if (c.medium) parts.push('<span class="chip chip-medium">' + c.medium + " medium</span>");
+      if (c.low) parts.push('<span class="chip chip-low">' + c.low + " low</span>");
+      if (c.info) parts.push('<span class="chip chip-info">' + c.info + " info</span>");
+      if (!parts.length) parts.push('<span class="chip chip-ok">no issues found</span>');
+      counts.innerHTML = parts.join("");
     }
 
     var flist = report.querySelector(".findings");
