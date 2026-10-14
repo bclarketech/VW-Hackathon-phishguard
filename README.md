@@ -140,4 +140,3 @@ phishguard/
 
 ## License
 
-[MIT](LICENSE) — free to use, study, and adapt (attribution appreciated).
