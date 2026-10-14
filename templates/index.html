@@ -23,20 +23,20 @@
       <form id="analyze-form" method="post" action="/analyze">
         <div class="row">
           <label for="sender">From</label>
-          <input type="text" id="sender" name="sender"
+          <input type="text" id="sender" name="sender" value="{{ sender or '' }}"
                  placeholder="Support &lt;security@paypa1-login.com&gt;" autocomplete="off">
         </div>
 
         <div class="row">
           <label for="subject">Subject</label>
-          <input type="text" id="subject" name="subject"
+          <input type="text" id="subject" name="subject" value="{{ subject or '' }}"
                  placeholder="Your account will be suspended in 24 hours" autocomplete="off">
         </div>
 
         <div class="row">
           <label for="body">Email body</label>
           <textarea id="body" name="body" rows="10"
-                    placeholder="Paste the message text or full raw email here..."></textarea>
+                    placeholder="Paste the message text or full raw email here...">{{ body or '' }}</textarea>
         </div>
 
         <div class="row file-row">
@@ -50,7 +50,7 @@
         <div class="actions">
           <button type="submit" class="btn-primary">Analyze email</button>
           <button type="button" id="sample-btn" class="btn-ghost">Load a phishing sample</button>
-          <button type="reset" class="btn-ghost">Clear</button>
+          <button type="reset" id="clear-btn" class="btn-ghost">Clear</button>
         </div>
       </form>
 

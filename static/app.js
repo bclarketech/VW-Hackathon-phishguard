@@ -24,6 +24,26 @@
     requestAnimationFrame(step);
   }
 
+  // ---- Clear: wipe fields explicitly ----
+  // The form re-renders with the submitted values bound into value= attributes,
+  // so a plain type="reset" would restore them instead of clearing. Handle it in JS.
+  var clearBtn = document.getElementById("clear-btn");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      ["sender", "subject", "body"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.value = "";
+      });
+      var f = document.getElementById("email-file");
+      if (f) f.value = "";
+      var rep = document.getElementById("report");
+      if (rep) rep.remove();
+      var s = document.getElementById("sender");
+      if (s) s.focus();
+    });
+  }
+
   // ---- Load a realistic phishing sample ----
   var sampleBtn = document.getElementById("sample-btn");
   if (sampleBtn) {

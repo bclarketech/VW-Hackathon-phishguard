@@ -77,3 +77,38 @@ class AnalyzeRouteTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InputEchoRegressionTest(unittest.TestCase):
+    """Regressions: pasted From/Subject/Body must survive the analyze round-trip
+    (they were previously cleared because the template had no value bindings)."""
+
+    def setUp(self):
+        self.client = app.test_client()
+        app.config["TESTING"] = True
+
+    def test_form_post_keeps_inputs(self):
+        r = self.client.post("/analyze", data={
+            "sender": "Acme Billing <billing@paypa1-secure.com>",
+            "subject": "Your account will be suspended in 24 hours",
+            "body": "Verify your password now http://192.168.1.55/login.php",
+        })
+        self.assertEqual(r.status_code, 200)
+        html = r.get_data(as_text=True)
+        # sender is HTML-escaped in the value attribute
+        self.assertIn("Acme Billing &lt;billing@paypa1-secure.com&gt;", html)
+        self.assertIn("Your account will be suspended in 24 hours", html)
+        self.assertIn("192.168.1.55/login.php", html)
+
+    def test_error_paths_keep_inputs(self):
+        r = self.client.post("/analyze", data={"sender": "x", "subject": "", "body": ""})
+        self.assertEqual(r.status_code, 400)
+        self.assertIn('value="x"', r.get_data(as_text=True))
+
+    def test_too_large_keeps_inputs(self):
+        r = self.client.post("/analyze", data={
+            "sender": "s", "subject": "keepme", "body": "A" * 60000})
+        self.assertEqual(r.status_code, 413)
+        html = r.get_data(as_text=True)
+        self.assertIn("keepme", html)
+        self.assertIn("A" * 60000, html)

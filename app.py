@@ -20,7 +20,8 @@ MAX_PASTE_CHARS = 50_000
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html", report=None, error=None)
+    return render_template("index.html", report=None, error=None,
+                           sender="", subject="", body="")
 
 
 @app.route("/analyze", methods=["POST"])
@@ -48,25 +49,32 @@ def analyze_route():
                 raw = ""
 
     # Enforce the size limit on whatever the user gave us.
+    # NOTE: on every branch we echo the input back so the user never loses
+    #       what they pasted (nothing is persisted server-side).
+    echo_body = body or raw
     total = len(subject) + len(sender) + len(body) + len(raw)
     if total > MAX_PASTE_CHARS:
         error = f"Input too large ({total:,} chars). Please paste under {MAX_PASTE_CHARS:,} characters."
         if request.is_json:
             return jsonify({"error": error}), 413
-        return render_template("index.html", report=None, error=error), 413
+        return render_template("index.html", report=None, error=error,
+                               sender=sender, subject=subject, body=echo_body), 413
 
     if not (subject or body or raw):
         error = "Paste an email (or fill in at least the body) to analyze."
         if request.is_json:
             return jsonify({"error": error}), 400
-        return render_template("index.html", report=None, error=error), 400
+        return render_template("index.html", report=None, error=error,
+                               sender=sender, subject=subject, body=echo_body), 400
 
     report = analyze(subject=subject, body=body, sender=sender, raw=raw)
 
     # NOTE: we intentionally do not store `report`, `body`, or `raw` anywhere.
+    # The values below are only echoed back into the response form.
     if request.is_json:
         return jsonify(report.as_dict())
-    return render_template("index.html", report=report, error=None)
+    return render_template("index.html", report=report, error=None,
+                           sender=sender, subject=subject, body=echo_body)
 
 
 @app.route("/healthz", methods=["GET"])
