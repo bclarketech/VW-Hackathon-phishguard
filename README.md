@@ -41,6 +41,11 @@ gunicorn -w 2 -b 127.0.0.1:8000 app:app
 
 Open <http://127.0.0.1:8000> and click **"Load a phishing sample"** to see it in action.
 
+## Run the tests
+
+```bash
+python -m unittest discover -s tests -v
+```
 
 ## How the score works
 
@@ -77,6 +82,8 @@ The score is just points that add up. Here's how:
 | **Raw total** | | **150 → capped at 100** → **Likely phishing** |
 
 
+<<<<<<< HEAD
+=======
 ## Run the tests
 
 ```bash
@@ -92,6 +99,7 @@ All **21 tests** pass. They cover:
 | **Web API** | `/healthz` responds; `/analyze` handles JSON, form posts, raw `.eml` strings, and uploaded `.eml` files; empty input is rejected with 400 |
 | **Safety rails** | Oversized input is rejected (413), and error paths never lose what the user typed |
 
+>>>>>>> 57055d4424238caf9581d9ef59e3c0188b2cfa0b
 ## Design & security notes
 
 - **No storage.** Pasted emails are analyzed in memory only — nothing is written to disk,
