@@ -19,6 +19,23 @@ with transparent heuristics instead of a black-box model.
 Each finding is weighted (high/medium/low), summed into a **0–100 score**, and mapped to a
 verdict: `likely_safe` · `suspicious` · `likely_phishing`.
 
+## Quick start (run locally)
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Development (debug OFF):
+python app.py            # serves on http://127.0.0.1:8000
+
+# Production-style:
+gunicorn -w 2 -b 127.0.0.1:8000 app:app
+```
+
+Open <http://127.0.0.1:8000> and click **"Load a phishing sample"** to see it in action.
+
+
 ## How the score works
 
 The score is just points that add up. Here's how:
@@ -53,21 +70,6 @@ The score is just points that add up. Here's how:
 | 3 low flags | × 5 | = 15 |
 | **Raw total** | | **150 → capped at 100** → **Likely phishing** |
 
-## Quick start (run locally)
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-# Development (debug OFF):
-python app.py            # serves on http://127.0.0.1:8000
-
-# Production-style:
-gunicorn -w 2 -b 127.0.0.1:8000 app:app
-```
-
-Open <http://127.0.0.1:8000> and click **"Load a phishing sample"** to see it in action.
 
 ## Run the tests
 
