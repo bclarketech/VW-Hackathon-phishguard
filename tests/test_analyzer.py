@@ -1,4 +1,5 @@
-"""Unit tests for the PhishGuard analyzer.
+"""
+Unit tests for the PhishGuard analyzer.
 
 Run:  python -m unittest discover -s tests -v
 """
