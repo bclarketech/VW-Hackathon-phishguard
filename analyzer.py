@@ -7,6 +7,12 @@ Design notes (important for the security write-up):
   * Nothing is written to disk or a database. Analysis is in-memory only.
   * The Flask debug toolbar is never enabled. Run under gunicorn in production.
   * Pure-Python heuristics; no external network calls at analysis time.
+
+Citation: 
+    *This project was inspired by AI assistants. 
+    *The team used Hermes (by Nous Research)
+    *To help draft and debug code, explain concepts, and write notes. 
+    *All code was reviewed and tested by the team.
 """
 
 from __future__ import annotations

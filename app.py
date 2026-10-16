@@ -6,6 +6,12 @@ Security posture (deliberate, and worth calling out in the write-up):
   * Pasted emails are analyzed in memory only; nothing is written to disk,
     logged, or sent anywhere.
   * No authentication — it's a read-only analyzer for a classroom demo.
+
+  Citation: 
+    *This project was inspired by AI assistants. 
+    *The team used Hermes (by Nous Research)
+    *To help draft and debug code, explain concepts, and write notes. 
+    *All code was reviewed and tested by the team.
 """
 
 from flask import Flask, render_template, request, jsonify

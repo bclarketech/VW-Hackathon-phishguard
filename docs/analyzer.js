@@ -4,6 +4,10 @@
  * This is a faithful port of the Python engine (analyzer.py) so the whole app
  * can run as a static site on GitHub Pages. Everything executes in YOUR browser:
  * no server, no upload — the email you paste never leaves your device.
+ * Citation: 
+    *This project was inspired by AI assistants. 
+    *The team used Hermes (by Nous Research)
+    *To help draft and debug code, explain concepts, and write notes. 
  */
 
 (function (global) {
