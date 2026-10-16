@@ -132,13 +132,15 @@ phishguard/
 - Containerized deployment (Docker + Kubernetes) behind a Cloudflare Tunnel
 - Machine-learning classifier trained on a public phishing corpus
 
-## AI assistance
+## A note on AI
 
-This project was built with the help of AI assistants. The team used **Hermes**
-(by Nous Research), along with other AI tools, to help draft and debug code,
-explain concepts, and write documentation. All code was reviewed and tested by
-the team, every member can explain how it works, and the team takes full
-responsibility for the project.
+PhishGuard was inspired by AI. We were playing around with AI assistants, had
+one pick a phishing email apart for us, and figured we could build something
+that does that on purpose.
+
+A lot of the code in this repo was written with AI help. We reviewed it, ran it
+through all 21 tests, and we can explain any file you point at. The scoring
+weights and the security rules were our decisions.
 
 ## Team
 
