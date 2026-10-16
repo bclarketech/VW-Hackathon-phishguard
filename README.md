@@ -132,6 +132,14 @@ phishguard/
 - Containerized deployment (Docker + Kubernetes) behind a Cloudflare Tunnel
 - Machine-learning classifier trained on a public phishing corpus
 
+## AI assistance
+
+This project was built with the help of AI assistants. The team used **Hermes**
+(by Nous Research), along with other AI tools, to help draft and debug code,
+explain concepts, and write documentation. All code was reviewed and tested by
+the team, every member can explain how it works, and the team takes full
+responsibility for the project.
+
 ## Team
 
 - **Chris Clarke** — detection engine, Flask API, browser edition, deployment
